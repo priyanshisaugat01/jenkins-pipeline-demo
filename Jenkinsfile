@@ -1,20 +1,24 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.10'
+        }
+    }
     stages {
         stage('Build') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'pip install -r requirement.txt'
             }
         }
         stage('Test') {
             steps {
-                sh 'pytest --maxfail=1 --disable-warnings -q'
+                sh 'pytest --junitxml=results.xml'
+                junit 'results.xml'
             }
         }
         stage('Deploy') {
             steps {
-                // Run the game with a sample input
-                sh 'echo 3 | python app.py'
+                sh 'echo 3 | python3 app.py'
             }
         }
     }
