@@ -6,12 +6,16 @@ pipeline {
                 sh 'pip3 install --break-system-packages -r requirement.txt'
             }
         }
-        stage('Test') {
-            steps {
-                sh 'pytest --junitxml=results.xml'
-                junit 'results.xml'
-            }
-        }
+      stage('Test') {
+    steps {
+        sh '''
+            export PATH=$PATH:/var/jenkins_home/.local/bin
+            pytest --junitxml=results.xml
+        '''
+        junit 'results.xml'
+    }
+}
+
         stage('Deploy') {
             steps {
                 sh 'echo 3 | python3 app.py'
