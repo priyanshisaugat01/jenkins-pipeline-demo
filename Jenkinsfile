@@ -3,18 +3,28 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'pip3 install -r requirement.txt'
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install -r requirement.txt
+                '''
             }
         }
         stage('Test') {
             steps {
-                sh 'pytest --junitxml=results.xml'
+                sh '''
+                    . venv/bin/activate
+                    pytest --junitxml=results.xml
+                '''
                 junit 'results.xml'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'echo 3 | python3 app.py'
+                sh '''
+                    . venv/bin/activate
+                    echo 3 | python3 app.py
+                '''
             }
         }
     }
