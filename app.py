@@ -1,13 +1,23 @@
+import tkinter as tk
 import random
 
-def guess_number():
+def play_game():
     number = random.randint(1, 5)
-    print("Guess a number between 1 and 5!")
-    guess = int(input("Your guess: "))
+    guess = int(entry.get())
     if guess == number:
-        return "🎉 Correct!"
+        result.set("🎉 Correct!")
     else:
-        return f"❌ Wrong! The number was {number}"
+        result.set(f"❌ Wrong! The number was {number}")
 
-if __name__ == "__main__":
-    print(guess_number())
+root = tk.Tk()
+root.title("Guess the Number Game")
+
+tk.Label(root, text="Guess a number between 1 and 5").pack()
+entry = tk.Entry(root)
+entry.pack()
+
+tk.Button(root, text="Submit", command=play_game).pack()
+result = tk.StringVar()
+tk.Label(root, textvariable=result).pack()
+
+root.mainloop()
