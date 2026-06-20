@@ -3,17 +3,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building project...'
+                sh 'pip install -r requirements.txt'
             }
         }
         stage('Test') {
             steps {
-                echo 'Running tests...'
+                sh 'pytest --maxfail=1 --disable-warnings -q'
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
+                // Run the game with a sample input
+                sh 'echo 3 | python app.py'
             }
         }
     }
